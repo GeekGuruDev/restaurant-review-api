@@ -12,6 +12,7 @@ const locationSchema = new mongoose.Schema({
   },
   country: {
     type: String,
+    required: [true, "Please provide country."],
     trim: true,
   },
 });
