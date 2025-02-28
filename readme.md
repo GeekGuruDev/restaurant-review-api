@@ -57,7 +57,7 @@ This API provides a platform for users to discover and review restaurants. It al
 1.  Clone the repository:
 
     ```bash
-    git clone https://github.com/GeekGuruDev/restaurant-review-api
+    git clone https://github.com/GeekGuruDev/restaurant-review-api.git
     ```
 
 2.  Navigate to the project directory:
