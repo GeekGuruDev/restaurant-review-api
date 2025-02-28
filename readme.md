@@ -57,7 +57,7 @@ This API provides a platform for users to discover and review restaurants. It al
 1.  Clone the repository:
 
     ```bash
-    git clone [https://github.com/your-username/restaurant-review-api.git](https://github.com/your-username/restaurant-review-api.git)
+    git clone https://github.com/GeekGuruDev/restaurant-review-api
     ```
 
 2.  Navigate to the project directory:
@@ -76,7 +76,9 @@ This API provides a platform for users to discover and review restaurants. It al
 
 ### Configuration
 
-1.  Create a `.env` file in the root directory and add your environment variables (see `.env.example` for reference):
+1.  Create a `.env` file in the root directory and add your environment variables (see `.env example` for reference):
+
+    #### .env example
 
     ```
     MONGODB_URI=your_mongodb_atlas_connection_string
@@ -89,7 +91,7 @@ This API provides a platform for users to discover and review restaurants. It al
     EMAIL_PASSWORD=your_email_password
     EMAIL_HOST=smtp.example.com
     EMAIL_PORT=587
-    EMAIL_FROM=[email address removed]
+    EMAIL_FROM=noreply@example.com
     PORT=3000
     ```
 
@@ -114,7 +116,7 @@ npm start
 yarn start
 ```
 
-- The API will be running on the specified port (default: 3000).
+The API will be running on the specified port (default: 3000).
 
 ## API Endpoints
 
@@ -128,7 +130,7 @@ yarn start
     ```json
     {
       "username": "newUser",
-      "email": "[email address removed]",
+      "email": "user@example.com",
       "password": "securePassword"
     }
     ```
@@ -140,7 +142,7 @@ yarn start
         "user": {
           "_id": "...",
           "username": "newUser",
-          "email": "[email address removed]",
+          "email": "user@example.com",
           "role": "user",
           "bio": null,
           "profilePicture": null,
@@ -156,7 +158,7 @@ yarn start
   - Status Code: `200 OK`
   - Example Request:
     ```json
-    { "email": "[email address removed]", "password": "securePassword" }
+    { "email": "user@example.com", "password": "securePassword" }
     ```
   - Example Response:
     ```json
@@ -186,14 +188,14 @@ yarn start
   - Status Code: `200 OK`
   - Example Request:
     ```json
-    { "email": "[email address removed]" }
+    { "email": "user@example.com" }
     ```
   - Example Response:
     ```json
     { "status": "success", "message": "Password reset email sent." }
     ```
   - Note: This endpoint sends an email with a link containing the reset token as a URL parameter.
-- **`POST /users/reset-password/:resetToken`**: Reset password.
+- **`PATCH /users/reset-password/:resetToken`**: Reset password.
   - Request: The reset token is sent as a URL parameter.
   - Request Body: `{ password }`
   - Response: `{ status: "success", message: "Password reset successful.", data: { accessToken: "..." } }`
@@ -227,7 +229,7 @@ yarn start
         "user": {
           "_id": "...",
           "username": "newUser",
-          "email": "[email address removed]",
+          "email": "user@example.com",
           "role": "user",
           "bio": null,
           "profilePicture": null,
@@ -237,7 +239,7 @@ yarn start
       }
     }
     ```
-- **`PUT /users/me`**: Update the currently authenticated user's profile.
+- **`PATCH /users/me`**: Update the currently authenticated user's profile.
   - Request Body: `{ username?, email?, bio?, profilePicture? }` (Password updates are not allowed via this endpoint. Use `/users/me/password` to update the password.)
   - Response: `{ status: "success", data: { user } }`
   - Status Code: `200 OK`
@@ -253,7 +255,7 @@ yarn start
         "user": {
           "_id": "...",
           "username": "updatedUser",
-          "email": "[email address removed]",
+          "email": "user@example.com",
           "role": "user",
           "bio": "Updated bio",
           "profilePicture": null,
@@ -263,7 +265,7 @@ yarn start
       }
     }
     ```
-- **`PUT /users/me/password`**: Update the currently authenticated user's password.
+- **`PATCH /users/me/password`**: Update the currently authenticated user's password.
   - Request Body: `{ currentPassword, newPassword }`
   - Response: `{ status: "success", message: "Password updated successfully.", data: { accessToken: "..." } }`
   - Status Code: `200 OK`
@@ -282,11 +284,96 @@ yarn start
     }
     ```
 - **`DELETE /users/me`**: Delete the currently authenticated user's account.
-  - Response: `{ status: "success", message: "User deleted" }`
+
+  - Response: `{ status: "success", data: null }`
   - Status Code: `200 OK`
   - Example Response:
     ```json
-    { "status": "success", "message": "User deleted" }
+    { "status": "success", "data": null }
+    ```
+
+- **`GET /users`**: Get a list of all users (admin only).
+
+  - Response: `{ status: "success", data: [users] }`
+  - Status Code: `200 OK`
+  - Example Response:
+    ```json
+    {
+      "status": "success",
+      "data": [
+        {
+          "user": {
+            "_id": "...",
+            "username": "newUser",
+            "email": "user@example.com",
+            "role": "user",
+            "bio": null,
+            "profilePicture": null,
+            "createdAt": "...",
+            "updatedAt": "..."
+          }
+        }
+      ]
+    }
+    ```
+
+- **`GET /users/:id`**: Get details of a specific user (admin only).
+
+  - Response: `{ status: "success", data: { user } }`
+  - Status Code: `200 OK`
+  - Example Response:
+    ```json
+    {
+      "status": "success",
+      "data": {
+        "user": {
+          "_id": "...",
+          "username": "newUser",
+          "email": "user@example.com",
+          "role": "user",
+          "bio": null,
+          "profilePicture": null,
+          "createdAt": "...",
+          "updatedAt": "..."
+        }
+      }
+    }
+    ```
+
+- **`PATCH /users`**: Update a specific user (admin only).
+
+  - Request Body: `{ username?, email?, bio?, profilePicture? }` (Password updates are not allowed)
+  - Response: `{ status: "success", data: { user } }`
+  - Status Code: `200 OK`
+  - Example Request:
+    ```json
+    { "username": "updatedUser", "bio": "Updated bio" }
+    ```
+  - Example Response:
+    ```json
+    {
+      "status": "success",
+      "data": {
+        "user": {
+          "_id": "...",
+          "username": "updatedUser",
+          "email": "user@example.com",
+          "role": "user",
+          "bio": "Updated bio",
+          "profilePicture": null,
+          "createdAt": "...",
+          "updatedAt": "..."
+        }
+      }
+    }
+    ```
+
+- **`DELETE /users`**: Delete a specific user (admin only)..
+  - Response: `{ status: "success", data: null }`
+  - Status Code: `200 OK`
+  - Example Response:
+    ```json
+    { "status": "success", "data": null }
     ```
 
 ### Restaurants
@@ -379,7 +466,7 @@ yarn start
       }
     }
     ```
-- **`PUT /restaurants/:id`**: Update a restaurant (owner/admin only).
+- **`PATCH /restaurants/:id`**: Update a restaurant (owner/admin only).
   - Request Body: `{ name?, description?, address?, location?, cuisine?, priceRange?, images?, menu? }`
   - Response: `{ status: "success", data: { restaurant } }`
   - Example Request:
@@ -409,10 +496,10 @@ yarn start
     }
     ```
 - **`DELETE /restaurants/:id`**: Delete a restaurant (owner/admin only).
-  - Response: `{ status: "success", message: "Restaurant deleted" }`
+  - Response: `{ status: "success", data: null }`
   - Example Response:
     ```json
-    { "status": "success", "message": "Restaurant deleted" }
+    { "status": "success", "data": null }
     ```
 
 ### Reviews
@@ -480,7 +567,7 @@ yarn start
       }
     }
     ```
-- **`PUT /reviews/:id`**: Update a review (user who wrote the review or admin only).
+- **`PATCH /reviews/:id`**: Update a review (user who wrote the review or admin only).
   - Request Body: `{ rating?, comment? }`
   - Response: `{ status: "success", data: { review } }`
   - Status Code: `200 OK`
@@ -504,11 +591,11 @@ yarn start
     }
     ```
 - **`DELETE /reviews/:id`**: Delete a review (user who wrote the review or admin only).
-  - Response: `{ status: "success", message: "Review deleted" }`
+  - Response: `{ status: "success", data: null }`
   - Status Code: `200 OK`
   - Example Response:
     ```json
-    { "status": "success", "message": "Review deleted" }
+    { "status": "success", "data": null }
     ```
 
 ### Cuisines
@@ -550,7 +637,7 @@ yarn start
       }
     }
     ```
-- **`PUT /cuisines/:id`**: Update a cuisine (admin only).
+- **`PATCH /cuisines/:id`**: Update a cuisine (admin only).
   - Request Body: `{ name }`
   - Response: `{ status: "success", data: { cuisine } }`
   - Status Code: `200 OK`
@@ -571,11 +658,11 @@ yarn start
     }
     ```
 - **`DELETE /cuisines/:id`**: Delete a cuisine (admin only).
-  - Response: `{ status: "success", message: "Cuisine deleted" }`
+  - Response: `{ status: "success", data: null }`
   - Status Code: `200 OK`
   - Example Response:
     ```json
-    { "status": "success", "message": "Cuisine deleted" }
+    { "status": "success", "data": null }
     ```
 
 ### Locations
@@ -638,7 +725,7 @@ yarn start
       }
     }
     ```
-- **`PUT /locations/:id`**: Update a location (admin only).
+- **`PATCH /locations/:id`**: Update a location (admin only).
   - Request Body: `{ city?, state?, country? }`
   - Response: `{ status: "success", data: { location } }`
   - Status Code: `200 OK`
@@ -661,11 +748,11 @@ yarn start
     }
     ```
 - **`DELETE /locations/:id`**: Delete a location (admin only).
-  - Response: `{ status: "success", message: "Location deleted" }`
+  - Response: `{ status: "success", data: null }`
   - Status Code: `200 OK`
   - Example Response:
     ```json
-    { "status": "success", "message": "Location deleted" }
+    { "status": "success", "data": null }
     ```
 
 ## Data Models
@@ -710,7 +797,7 @@ yarn start
   address: String,
   location: ObjectId, // Reference to Location
   cuisine: ObjectId, // Reference to Cuisine
-  priceRange: String, // "<span class="math-inline">", "</span><span class="math-inline">", "</span>$$"
+  priceRange: String, // "$", "$$", "$$$"
   averageRating: Number,
   images: [String],
   slug: String,
