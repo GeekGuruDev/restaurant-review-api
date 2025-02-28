@@ -2,7 +2,7 @@
 
 This is a RESTful API for managing restaurants, reviews, cuisines, and locations. It's built using Node.js, Express.js, and MongoDB with Mongoose.
 
-[![Node.js](https://img.shields.io/badge/Node.js-%3E=16.0.0-green.svg)](https://nodejs.org/)
+[![Node.js](https://img.shields.io/badge/Node.js-%3E=20.0.0-green.svg)](https://nodejs.org/)
 
 ## Table of Contents
 
