@@ -123,8 +123,9 @@ The API will be running on the specified port (default: 3000).
 ### Authentication
 
 - **`POST /users/register`**: Register a new user.
+
   - Request Body: `{ username, email, password, bio?, profilePicture? }`
-  - Response: `{ status: "success", data: { user } }`
+  - Response: `{ status: "success", accessToken: "...", data: { user: { ... } } }`
   - Status Code: `201 Created`
   - Example Request:
     ```json
@@ -135,9 +136,11 @@ The API will be running on the specified port (default: 3000).
     }
     ```
   - Example Response:
+
     ```json
     {
       "status": "success",
+      "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
       "data": {
         "user": {
           "_id": "...",
@@ -152,37 +155,52 @@ The API will be running on the specified port (default: 3000).
       }
     }
     ```
+
 - **`POST /users/login`**: Login a user (returns a JWT).
+
   - Request Body: `{ email, password }`
-  - Response: `{ status: "success", data: { token } }`
+  - Response: `{ status: "success", accessToken: "...", data: { user: { ... } } }`
   - Status Code: `200 OK`
   - Example Request:
     ```json
     { "email": "user@example.com", "password": "securePassword" }
     ```
   - Example Response:
+
     ```json
     {
       "status": "success",
+      "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
       "data": {
-        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiIuLi4iLCJpYXQiOjE2OTg3NjU2MzUsImV4cCI6MTY5ODc2OTIzNX0...."
+        "user": {
+          "_id": "...",
+          "username": "...",
+          "email": "user@example.com",
+          "role": "...",
+          "bio": "...",
+          "profilePicture": "...",
+          "createdAt": "...",
+          "updatedAt": "..."
+        }
       }
     }
     ```
+
 - **`POST /users/refresh-token`**: Refresh an access token.
+
   - Request: The refresh token is sent in an HTTP-only cookie named `refreshToken`.
-  - Response: `{ status: "success", data: { accessToken } }`
+  - Response: `{ status: "success", accessToken: "...", data: { user: { ... } } }`
   - Status Code: `200 OK`
   - Example Response:
     ```json
     {
       "status": "success",
-      "data": {
-        "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9eyJfaWQiOiIuLi4iLCJpYXQiOjE2OTg3NjU2MzUsImV4cCI6MTY5ODc2OTIzNX0...."
-      }
+      "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9eyJfaWQiOiIuLi4iLCJpYXQiOjE2OTg3NjU2MzUsImV4cCI6MTY5ODc2OTIzNX0...."
     }
     ```
+
 - **`POST /users/forgot-password`**: Initiate password reset.
+
   - Request Body: `{ email }`
   - Response: `{ status: "success", message: "Password reset email sent." }`
   - Status Code: `200 OK`
@@ -195,26 +213,37 @@ The API will be running on the specified port (default: 3000).
     { "status": "success", "message": "Password reset email sent." }
     ```
   - Note: This endpoint sends an email with a link containing the reset token as a URL parameter.
+
 - **`PATCH /users/reset-password/:resetToken`**: Reset password.
+
   - Request: The reset token is sent as a URL parameter.
   - Request Body: `{ password }`
-  - Response: `{ status: "success", message: "Password reset successful.", data: { accessToken: "..." } }`
+  - Response: `{ status: "success", accessToken: "...", data: { user: { ... } } }`
   - Status Code: `200 OK`
   - Example Request:
     ```json
     { "password": "newSecurePassword" }
     ```
   - Example Response:
+
     ```json
     {
       "status": "success",
-      "message": "Password reset successful.",
+      "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
       "data": {
-        "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9eyJfaWQiOiIuLi4iLCJpYXQiOjE2OTg3NjU2MzUsImV4cCI6MTY5ODc2OTIzNX0...."
+        "user": {
+          "_id": "...",
+          "username": "...",
+          "email": "...",
+          "role": "...",
+          "bio": "...",
+          "profilePicture": "...",
+          "createdAt": "...",
+          "updatedAt": "..."
+        }
       }
     }
     ```
-  - Example URL: `/users/reset-password/your_reset_token_here`
 
 ### Users
 
@@ -266,23 +295,35 @@ The API will be running on the specified port (default: 3000).
     }
     ```
 - **`PATCH /users/me/password`**: Update the currently authenticated user's password.
+
   - Request Body: `{ currentPassword, newPassword }`
-  - Response: `{ status: "success", message: "Password updated successfully.", data: { accessToken: "..." } }`
+  - Response: `{ status: "success", accessToken: "...", data: { user: { ... } } }`
   - Status Code: `200 OK`
   - Example Request:
     ```json
     { "currentPassword": "oldPassword", "newPassword": "newSecurePassword" }
     ```
   - Example Response:
+
     ```json
     {
       "status": "success",
-      "message": "Password updated successfully.",
+      "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
       "data": {
-        "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9eyJfaWQiOiIuLi4iLCJpYXQiOjE2OTg3NjU2MzUsImV4cCI6MTY5ODc2OTIzNX0...."
+        "user": {
+          "_id": "...",
+          "username": "...",
+          "email": "user@example.com",
+          "role": "...",
+          "bio": "...",
+          "profilePicture": "...",
+          "createdAt": "...",
+          "updatedAt": "..."
+        }
       }
     }
     ```
+
 - **`DELETE /users/me`**: Delete the currently authenticated user's account.
 
   - Response: `{ status: "success", data: null }`
