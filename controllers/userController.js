@@ -17,7 +17,7 @@ exports.updateMe = asyncHandler(async (req, res, next) => {
     );
   }
 
-  const allowedFields = ["username", "email", "profilePicture"];
+  const allowedFields = ["username", "email", "bio", "profilePicture"];
   const newObj = {};
   Object.keys(req.body).forEach((el) => {
     if (allowedFields.includes(el)) {
