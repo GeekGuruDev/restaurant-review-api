@@ -81,7 +81,7 @@ This API provides a platform for users to discover and review restaurants. It al
     #### .env example
 
     ```
-    MONGODB_URI=your_mongodb_atlas_connection_string
+    MONGODB_URI=mongodb://<username>:<password>@<host>:<port>/<database>
     ACCESS_TOKEN_SECRET=your_access_token_secret
     REFRESH_TOKEN_SECRET=your_refresh_token_secret
     RESET_TOKEN_SECRET=your_reset_token_secret
