@@ -125,7 +125,7 @@ The API will be running on the specified port (default: 3000).
 - **`POST /users/register`**: Register a new user.
 
   - Request Body: `{ username, email, password, bio?, profilePicture? }`
-  - Response: `{ status: "success", accessToken: "...", data: { user: { ... } } }`
+  - Response: `{ status: "success", accessToken: "...", data: { user } }`
   - Status Code: `201 Created`
   - Example Request:
     ```json
@@ -142,16 +142,14 @@ The API will be running on the specified port (default: 3000).
       "status": "success",
       "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
       "data": {
-        "user": {
-          "_id": "...",
-          "username": "newUser",
-          "email": "user@example.com",
-          "role": "user",
-          "bio": null,
-          "profilePicture": null,
-          "createdAt": "...",
-          "updatedAt": "..."
-        }
+        "_id": "...",
+        "username": "newUser",
+        "email": "user@example.com",
+        "role": "user",
+        "bio": null,
+        "profilePicture": null,
+        "createdAt": "...",
+        "updatedAt": "..."
       }
     }
     ```
@@ -159,7 +157,7 @@ The API will be running on the specified port (default: 3000).
 - **`POST /users/login`**: Login a user (returns a JWT).
 
   - Request Body: `{ email, password }`
-  - Response: `{ status: "success", accessToken: "...", data: { user: { ... } } }`
+  - Response: `{ status: "success", accessToken: "...", data: { user } }`
   - Status Code: `200 OK`
   - Example Request:
     ```json
@@ -172,16 +170,14 @@ The API will be running on the specified port (default: 3000).
       "status": "success",
       "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
       "data": {
-        "user": {
-          "_id": "...",
-          "username": "...",
-          "email": "user@example.com",
-          "role": "...",
-          "bio": "...",
-          "profilePicture": "...",
-          "createdAt": "...",
-          "updatedAt": "..."
-        }
+        "_id": "...",
+        "username": "...",
+        "email": "user@example.com",
+        "role": "...",
+        "bio": "...",
+        "profilePicture": "...",
+        "createdAt": "...",
+        "updatedAt": "..."
       }
     }
     ```
@@ -189,7 +185,7 @@ The API will be running on the specified port (default: 3000).
 - **`POST /users/refresh-token`**: Refresh an access token.
 
   - Request: The refresh token is sent in an HTTP-only cookie named `refreshToken`.
-  - Response: `{ status: "success", accessToken: "...", data: { user: { ... } } }`
+  - Response: `{ status: "success", accessToken: "..." }`
   - Status Code: `200 OK`
   - Example Response:
     ```json
@@ -218,7 +214,7 @@ The API will be running on the specified port (default: 3000).
 
   - Request: The reset token is sent as a URL parameter.
   - Request Body: `{ password }`
-  - Response: `{ status: "success", accessToken: "...", data: { user: { ... } } }`
+  - Response: `{ status: "success", accessToken: "...", data: { user } }`
   - Status Code: `200 OK`
   - Example Request:
     ```json
@@ -231,16 +227,14 @@ The API will be running on the specified port (default: 3000).
       "status": "success",
       "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
       "data": {
-        "user": {
-          "_id": "...",
-          "username": "...",
-          "email": "...",
-          "role": "...",
-          "bio": "...",
-          "profilePicture": "...",
-          "createdAt": "...",
-          "updatedAt": "..."
-        }
+        "_id": "...",
+        "username": "...",
+        "email": "...",
+        "role": "...",
+        "bio": "...",
+        "profilePicture": "...",
+        "createdAt": "...",
+        "updatedAt": "..."
       }
     }
     ```
@@ -255,16 +249,14 @@ The API will be running on the specified port (default: 3000).
     {
       "status": "success",
       "data": {
-        "user": {
-          "_id": "...",
-          "username": "newUser",
-          "email": "user@example.com",
-          "role": "user",
-          "bio": null,
-          "profilePicture": null,
-          "createdAt": "...",
-          "updatedAt": "..."
-        }
+        "_id": "...",
+        "username": "newUser",
+        "email": "user@example.com",
+        "role": "user",
+        "bio": null,
+        "profilePicture": null,
+        "createdAt": "...",
+        "updatedAt": "..."
       }
     }
     ```
@@ -281,23 +273,21 @@ The API will be running on the specified port (default: 3000).
     {
       "status": "success",
       "data": {
-        "user": {
-          "_id": "...",
-          "username": "updatedUser",
-          "email": "user@example.com",
-          "role": "user",
-          "bio": "Updated bio",
-          "profilePicture": null,
-          "createdAt": "...",
-          "updatedAt": "..."
-        }
+        "_id": "...",
+        "username": "updatedUser",
+        "email": "user@example.com",
+        "role": "user",
+        "bio": "Updated bio",
+        "profilePicture": null,
+        "createdAt": "...",
+        "updatedAt": "..."
       }
     }
     ```
 - **`PATCH /users/me/password`**: Update the currently authenticated user's password.
 
   - Request Body: `{ currentPassword, newPassword }`
-  - Response: `{ status: "success", accessToken: "...", data: { user: { ... } } }`
+  - Response: `{ status: "success", accessToken: "...", data: { user } }`
   - Status Code: `200 OK`
   - Example Request:
     ```json
@@ -310,16 +300,14 @@ The API will be running on the specified port (default: 3000).
       "status": "success",
       "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
       "data": {
-        "user": {
-          "_id": "...",
-          "username": "...",
-          "email": "user@example.com",
-          "role": "...",
-          "bio": "...",
-          "profilePicture": "...",
-          "createdAt": "...",
-          "updatedAt": "..."
-        }
+        "_id": "...",
+        "username": "...",
+        "email": "user@example.com",
+        "role": "...",
+        "bio": "...",
+        "profilePicture": "...",
+        "createdAt": "...",
+        "updatedAt": "..."
       }
     }
     ```
@@ -367,16 +355,14 @@ The API will be running on the specified port (default: 3000).
     {
       "status": "success",
       "data": {
-        "user": {
-          "_id": "...",
-          "username": "newUser",
-          "email": "user@example.com",
-          "role": "user",
-          "bio": null,
-          "profilePicture": null,
-          "createdAt": "...",
-          "updatedAt": "..."
-        }
+        "_id": "...",
+        "username": "newUser",
+        "email": "user@example.com",
+        "role": "user",
+        "bio": null,
+        "profilePicture": null,
+        "createdAt": "...",
+        "updatedAt": "..."
       }
     }
     ```
@@ -395,16 +381,14 @@ The API will be running on the specified port (default: 3000).
     {
       "status": "success",
       "data": {
-        "user": {
-          "_id": "...",
-          "username": "updatedUser",
-          "email": "user@example.com",
-          "role": "user",
-          "bio": "Updated bio",
-          "profilePicture": null,
-          "createdAt": "...",
-          "updatedAt": "..."
-        }
+        "_id": "...",
+        "username": "updatedUser",
+        "email": "user@example.com",
+        "role": "user",
+        "bio": "Updated bio",
+        "profilePicture": null,
+        "createdAt": "...",
+        "updatedAt": "..."
       }
     }
     ```
