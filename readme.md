@@ -48,7 +48,7 @@ This API provides a platform for users to discover and review restaurants. It al
 
 ### Prerequisites
 
-- Node.js (v16 or higher recommended)
+- Node.js (v20 or higher recommended)
 - npm or yarn
 - MongoDB Atlas account and cluster
 
